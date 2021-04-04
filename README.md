@@ -10,7 +10,7 @@ This library internally uses [bbc/sqs-producer](https://github.com/bbc/sqs-produ
 ## Installation
 
 ```shell script
-$ npm i --save @ssut/nestjs-sqs
+$ npm i --save @coin-market-man/sqs-lib
 ```
 
 ## Quick Start

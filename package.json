@@ -1,6 +1,6 @@
 {
   "name": "@coin-market-man/sqs-lib",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "SQS library for CMM",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,7 +11,7 @@
     "lint": "npx eslint \"lib/**/*.ts\" --fix"
   },
   "bugs": {
-    "url": "https://github.com/ssut/nestjs-sqs/issues"
+    "url": "https://github.com/Coin-Market-Man/sqs-lib/issues"
   },
   "repository": {
     "type": "git",

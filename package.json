@@ -1,6 +1,6 @@
 {
   "name": "@coin-market-man/sqs-lib",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "SQS library for CMM",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -1,8 +1,5 @@
-# nestjs-sqs
-
-[![Test](https://github.com/ssut/nestjs-sqs/workflows/Test/badge.svg)](https://github.com/ssut/nestjs-sqs/actions?query=workflow%3ATest)
-[![npm version](https://badge.fury.io/js/%40ssut%2Fnestjs-sqs.svg)](https://badge.fury.io/js/%40ssut%2Fnestjs-sqs)
-
+# SQS-lib for CMM
+### Forked from nestjs-sqs:
 Tested with: [AWS SQS](https://aws.amazon.com/en/sqs/) and [ElasticMQ](https://github.com/softwaremill/elasticmq).
 
 Nestjs-sqs is a project to make SQS easier to use and control some required flows with NestJS.

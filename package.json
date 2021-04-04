@@ -1,7 +1,7 @@
 {
-  "name": "@ssut/nestjs-sqs",
+  "name": "@coin-market-man/sqs-lib",
   "version": "1.0.0",
-  "description": "",
+  "description": "SQS library for CMM",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -15,10 +15,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ssut/nestjs-sqs.git"
+    "url": "git+https://github.com/Coin-Market-Man/sqs-lib.git"
   },
   "keywords": [],
-  "author": "Suhun Han <ssut@ssut.me>",
   "license": "MIT",
   "dependencies": {
     "sqs-consumer": "^5.4.0",
@@ -27,7 +26,7 @@
     "@nestjs-plus/discovery": "^2.0.2"
   },
   "devDependencies": {
-    "@nestjs/common": "^7.4.2",
+    "@nestjs/common": "^7.6.15",
     "@nestjs/core": "^7.4.2",
     "@nestjs/testing": "^7.4.2",
     "@types/jest": "^26.0.9",
@@ -53,5 +52,8 @@
   "peerDependencies": {
     "@nestjs/common": "^6.10.11 || ^7.0.0",
     "@nestjs/core": "^6.10.11 || ^7.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   }
 }

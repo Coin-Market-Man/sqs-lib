@@ -34,16 +34,13 @@ class AppModule {}
 Quite often you might want to asynchronously pass module options instead of passing them beforehand.
 In such case, use `registerAsync()` method like many other Nest.js libraries.
 
-- Use factory
+- Use factory with config service (recommended in CMM)
 
 ```ts
 SqsModule.registerAsync({
-  useFactory: () => {
-    return {
-      consumers: [],
-      producers: [],         
-    };
-  },
+  useFactory: async (configService: ConfigService) =>
+    configService.createSQSOptions(),
+  inject: [ConfigService],
 });
 ```
 
@@ -105,7 +102,7 @@ export class AppService {
 
 ### Configuration
 
-See [here](https://github.com/ssut/nestjs-sqs/blob/master/lib/sqs.types.ts), and note that we have same configuration as [bbc/sqs-consumer's](https://github.com/bbc/sqs-producer). 
+See [here](https://github.com/Coin-Market-Man/sqs-lib/blob/master/lib/sqs.types.ts), and note that we have same configuration as [bbc/sqs-consumer's](https://github.com/bbc/sqs-producer). 
 In most time you just need to specify both `name` and `queueUrl` at the minimum requirements.
 
 ## License

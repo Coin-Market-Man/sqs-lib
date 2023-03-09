@@ -17,7 +17,7 @@ export type SqsProducerOptions = ProducerOptions & {
 export interface SqsOptions {
   consumers?: SqsConsumerOptions[];
   producers?: SqsProducerOptions[];
-};
+}
 
 export interface SqsModuleOptionsFactory {
   createOptions(): Promise<SqsOptions> | SqsOptions;
@@ -26,9 +26,7 @@ export interface SqsModuleOptionsFactory {
 export interface SqsModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'> {
   useExisting?: Type<SqsModuleOptionsFactory>;
   useClass?: Type<SqsModuleOptionsFactory>;
-  useFactory?: (
-    ...args: any[]
-  ) => Promise<SqsOptions> | SqsOptions;
+  useFactory?: (...args: any[]) => Promise<SqsOptions> | SqsOptions;
   inject?: any[];
 }
 
@@ -50,4 +48,3 @@ export interface SqsConsumerEventHandlerMeta {
   name: string;
   eventName: string;
 }
-

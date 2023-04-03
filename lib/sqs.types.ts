@@ -1,6 +1,6 @@
 import type { ConsumerOptions } from 'sqs-consumer';
 import type { Producer } from 'sqs-producer';
-import type { SQS } from 'aws-sdk';
+import type { MessageAttributeValue } from '@aws-sdk/client-sqs';
 import type { ModuleMetadata, Type } from '@nestjs/common';
 
 export type ProducerOptions = Parameters<typeof Producer.create>[0];
@@ -36,7 +36,7 @@ export interface Message<T = any> {
   groupId?: string;
   deduplicationId?: string;
   delaySeconds?: number;
-  messageAttributes?: SQS.MessageBodyAttributeMap;
+  messageAttributes?: Record<string, MessageAttributeValue>;
 }
 
 export interface SqsMessageHandlerMeta {

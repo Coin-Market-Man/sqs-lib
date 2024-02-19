@@ -1,25 +1,26 @@
-import { Inject, Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import { Inject, Injectable, Logger, OnApplicationBootstrap, OnModuleDestroy } from '@nestjs/common';
 import { Consumer } from 'sqs-consumer';
 import { Producer } from 'sqs-producer';
 import { Message, QueueName, SqsConsumerEventHandlerMeta, SqsMessageHandlerMeta, SqsOptions } from './sqs.types';
 import { DiscoveryService } from '@nestjs-plus/discovery';
 import { SQS_CONSUMER_EVENT_HANDLER, SQS_CONSUMER_METHOD, SQS_OPTIONS } from './sqs.constants';
-import * as AWS from 'aws-sdk';
-import type { QueueAttributeName } from 'aws-sdk/clients/sqs';
+import { SQSClient, GetQueueAttributesCommand, PurgeQueueCommand, QueueAttributeName } from '@aws-sdk/client-sqs';
 
 @Injectable()
-export class SqsService implements OnModuleInit, OnModuleDestroy {
+export class SqsService implements OnApplicationBootstrap, OnModuleDestroy {
   public readonly consumers = new Map<QueueName, Consumer>();
   public readonly producers = new Map<QueueName, Producer>();
 
-  private readonly logger = new Logger('SqsService', false);
+  private readonly logger = new Logger('SqsService', {
+    timestamp: false,
+  });
 
   public constructor(
     @Inject(SQS_OPTIONS) public readonly options: SqsOptions,
     private readonly discover: DiscoveryService,
   ) {}
 
-  public async onModuleInit(): Promise<void> {
+  public async onApplicationBootstrap(): Promise<void> {
     const messageHandlers = await this.discover.providerMethodsWithMetaAtKey<SqsMessageHandlerMeta>(
       SQS_CONSUMER_METHOD,
     );
@@ -89,7 +90,7 @@ export class SqsService implements OnModuleInit, OnModuleDestroy {
     }
 
     const { sqs, queueUrl } = (this.consumers.get(name) ?? this.producers.get(name)) as {
-      sqs: AWS.SQS;
+      sqs: SQSClient;
       queueUrl: string;
     };
     if (!sqs) {
@@ -104,21 +105,19 @@ export class SqsService implements OnModuleInit, OnModuleDestroy {
 
   public async purgeQueue(name: QueueName) {
     const { sqs, queueUrl } = this.getQueueInfo(name);
-    return sqs
-      .purgeQueue({
-        QueueUrl: queueUrl,
-      })
-      .promise();
+    const command = new PurgeQueueCommand({
+      QueueUrl: queueUrl,
+    });
+    return await sqs.send(command);
   }
 
   public async getQueueAttributes(name: QueueName) {
     const { sqs, queueUrl } = this.getQueueInfo(name);
-    const response = await sqs
-      .getQueueAttributes({
-        QueueUrl: queueUrl,
-        AttributeNames: ['All'],
-      })
-      .promise();
+    const command = new GetQueueAttributesCommand({
+      QueueUrl: queueUrl,
+      AttributeNames: ['All'],
+    });
+    const response = await sqs.send(command);
     return response.Attributes as { [key in QueueAttributeName]: string };
   }
 

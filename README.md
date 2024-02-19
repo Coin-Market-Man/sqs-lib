@@ -66,14 +66,16 @@ SqsModule.registerAsync({
 You need to decorate methods in your NestJS providers in order to have them be automatically attached as event handlers for incoming SQS messages:
 
 ```ts
+import { Message } from '@aws-sdk/client-sqs';
+
 @Injectable()
 export class AppMessageHandler {
   @SqsMessageHandler(/** name: */ 'queueName', /** batch: */ false)
-  public async handleMessage(message: AWS.SQS.Message) {
+  public async handleMessage(message: Message) {
   }
   
   @SqsConsumerEventHandler(/** name: */ 'queueName', /** eventName: */ 'processing_error')
-  public onProcessingError(error: Error, message: AWS.SQS.Message) {
+  public onProcessingError(error: Error, message: Message) {
     // report errors here
   }
 }

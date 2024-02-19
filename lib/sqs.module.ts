@@ -25,16 +25,9 @@ export class SqsModule {
     return {
       global: true,
       module: SqsModule,
-      imports: [
-        DiscoveryModule,
-      ],
-      providers: [
-        sqsOptions,
-        sqsProvider,
-      ],
-      exports: [
-        sqsProvider,
-      ],
+      imports: [DiscoveryModule],
+      providers: [sqsOptions, sqsProvider],
+      exports: [sqsProvider],
     };
   }
 
@@ -50,13 +43,8 @@ export class SqsModule {
       global: true,
       module: SqsModule,
       imports: [DiscoveryModule, ...(options.imports ?? [])],
-      providers: [
-        ...asyncProviders,
-        sqsProvider,
-      ],
-      exports: [
-        sqsProvider,
-      ],
+      providers: [...asyncProviders, sqsProvider],
+      exports: [sqsProvider],
     };
   }
 
@@ -76,16 +64,14 @@ export class SqsModule {
 
   private static createAsyncOptionsProvider(options: SqsModuleAsyncOptions): Provider {
     if (options.useFactory) {
-    return {
-      provide: SQS_OPTIONS,
-      useFactory: options.useFactory,
-      inject: options.inject || [],
-    };
-  }
+      return {
+        provide: SQS_OPTIONS,
+        useFactory: options.useFactory,
+        inject: options.inject || [],
+      };
+    }
 
-    const inject = [
-      (options.useClass || options.useExisting) as Type<SqsModuleOptionsFactory>,
-    ];
+    const inject = [(options.useClass || options.useExisting) as Type<SqsModuleOptionsFactory>];
     return {
       provide: SQS_OPTIONS,
       useFactory: async (optionsFactory: SqsModuleOptionsFactory) => await optionsFactory.createOptions(),

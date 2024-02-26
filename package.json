@@ -1,6 +1,6 @@
 {
   "name": "@coin-market-man/sqs-lib",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "SQS library for CMM",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,14 +21,14 @@
   "license": "MIT",
   "dependencies": {
     "@aws-sdk/client-sqs": "^3.303.0",
-    "@nestjs-plus/discovery": "^2.0.2",
+    "@golevelup/nestjs-discovery": "^4.0.0",
     "sqs-consumer": "^6.2.1",
     "sqs-producer": "^3.1.1"
   },
   "devDependencies": {
-    "@nestjs/common": "^9.3.9",
-    "@nestjs/core": "^9.3.9",
-    "@nestjs/testing": "^9.3.9",
+    "@nestjs/common": "10.0.0",
+    "@nestjs/core": "10.0.0",
+    "@nestjs/testing": "^10.3.3",
     "@types/jest": "^27.5.2",
     "@typescript-eslint/eslint-plugin": "^5.54.1",
     "@typescript-eslint/parser": "^5.54.1",
@@ -37,7 +37,7 @@
     "eslint-plugin-import": "^2.27.5",
     "jest": "^27.5.1",
     "prettier": "^2.0.5",
-    "reflect-metadata": "^0.1.13",
+    "reflect-metadata": "^0.1.14",
     "rimraf": "^3.0.2",
     "rxjs": "^7.8.0",
     "ts-jest": "^27.1.5",
@@ -47,8 +47,8 @@
     "wait-for-expect": "^3.0.2"
   },
   "peerDependencies": {
-    "@nestjs/common": "^6.10.11 || ^7.0.0 || ^8.0.0 || ^9.0.0",
-    "@nestjs/core": "^6.10.11 || ^7.0.0 || ^8.0.0 || ^9.0.0"
+    "@nestjs/common": "^10.0.0",
+    "@nestjs/core": "^10.0.0"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"

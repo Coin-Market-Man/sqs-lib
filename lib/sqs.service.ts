@@ -1,13 +1,13 @@
-import { Inject, Injectable, Logger, OnApplicationBootstrap, OnModuleDestroy } from '@nestjs/common';
+import { Inject, Injectable, Logger, OnApplicationBootstrap, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Consumer } from 'sqs-consumer';
 import { Producer } from 'sqs-producer';
 import { Message, QueueName, SqsConsumerEventHandlerMeta, SqsMessageHandlerMeta, SqsOptions } from './sqs.types';
-import { DiscoveryService } from '@nestjs-plus/discovery';
+import { DiscoveryService } from '@golevelup/nestjs-discovery';
 import { SQS_CONSUMER_EVENT_HANDLER, SQS_CONSUMER_METHOD, SQS_OPTIONS } from './sqs.constants';
 import { SQSClient, GetQueueAttributesCommand, PurgeQueueCommand, QueueAttributeName } from '@aws-sdk/client-sqs';
 
 @Injectable()
-export class SqsService implements OnApplicationBootstrap, OnModuleDestroy {
+export class SqsService implements OnApplicationBootstrap, OnModuleInit, OnModuleDestroy {
   public readonly consumers = new Map<QueueName, Consumer>();
   public readonly producers = new Map<QueueName, Producer>();
 
@@ -20,7 +20,7 @@ export class SqsService implements OnApplicationBootstrap, OnModuleDestroy {
     private readonly discover: DiscoveryService,
   ) {}
 
-  public async onApplicationBootstrap(): Promise<void> {
+  public async onModuleInit(): Promise<void> {
     const messageHandlers = await this.discover.providerMethodsWithMetaAtKey<SqsMessageHandlerMeta>(
       SQS_CONSUMER_METHOD,
     );
@@ -72,7 +72,9 @@ export class SqsService implements OnApplicationBootstrap, OnModuleDestroy {
       const producer = Producer.create(producerOptions);
       this.producers.set(name, producer);
     });
+  }
 
+  public async onApplicationBootstrap(): Promise<void> {
     for (const consumer of this.consumers.values()) {
       consumer.start();
     }
